@@ -34,10 +34,10 @@ class PhotoAlbumViewController: UIViewController {
     func loadPhotoAlbumLocationInMapView() {
         let span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(1.0/180.0), longitudeDelta: CLLocationDegrees(1.0/180.0))
         let region = MKCoordinateRegion(center: coordinate, span: span)
-        let annotion = MKPointAnnotation()
-        annotion.coordinate = coordinate
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
         
-        locationMapView.addAnnotation(annotion)
+        locationMapView.addAnnotation(annotation)
         locationMapView.setRegion(region, animated: true)
     }
 }
