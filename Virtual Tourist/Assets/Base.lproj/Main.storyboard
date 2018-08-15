@@ -34,7 +34,7 @@
                     <navigationItem key="navigationItem" id="DXZ-GG-aAF"/>
                     <connections>
                         <outlet property="locationsMapView" destination="JYa-d9-tGm" id="MXf-Vw-OI9"/>
-                        <segue destination="OCP-5c-OS5" kind="presentation" identifier="seguePhotoAlbum" id="R5J-mM-E4k"/>
+                        <segue destination="OCP-5c-OS5" kind="show" identifier="seguePhotoAlbum" id="R5J-mM-E4k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -60,13 +60,13 @@
                                 </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QMB-QY-Smt">
-                                <rect key="frame" x="0.0" y="44" width="375" height="100"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="J9q-T8-alf"/>
                                 </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cLW-aY-gRK">
-                                <rect key="frame" x="0.0" y="152" width="375" height="574"/>
+                                <rect key="frame" x="0.0" y="196" width="375" height="530"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="u7B-VQ-KAb">
                                     <size key="itemSize" width="50" height="50"/>

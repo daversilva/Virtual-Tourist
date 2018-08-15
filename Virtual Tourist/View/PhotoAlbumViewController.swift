@@ -15,19 +15,38 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var photosAlbumCollection: UICollectionView!
     @IBOutlet weak var newCollectionButton: UIButton!
     
+    var coordinate: CLLocationCoordinate2D!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        locationMapView.delegate = self
+        loadPhotoAlbumLocationInMapView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     @IBAction func newCollection(_ sender: UIButton) {
     }
-    
 
+    func loadPhotoAlbumLocationInMapView() {
+        let span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(1.0/180.0), longitudeDelta: CLLocationDegrees(1.0/180.0))
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        let annotion = MKPointAnnotation()
+        annotion.coordinate = coordinate
+        
+        locationMapView.addAnnotation(annotion)
+        locationMapView.setRegion(region, animated: true)
+    }
+}
+
+// MARK: MKMapViewDelegate - Methods
+
+extension PhotoAlbumViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        return MapViewHelper.shared.viewForAnnotation(mapView, annotation)
+    }
 }
