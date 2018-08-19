@@ -13,8 +13,12 @@
 		BC5950C22120CA3500EF9E72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5950C02120CA3500EF9E72 /* LaunchScreen.storyboard */; };
 		BC5950CD2120CD8300EF9E72 /* TravelLocationsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5950CC2120CD8300EF9E72 /* TravelLocationsMapViewController.swift */; };
 		BC5950CF2120CD9700EF9E72 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5950CE2120CD9700EF9E72 /* PhotoAlbumViewController.swift */; };
+		BC8EDA0F21264FA300C55B65 /* FlickConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8EDA0E21264FA300C55B65 /* FlickConvenience.swift */; };
+		BC8EDA112126517400C55B65 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8EDA102126517400C55B65 /* Photo.swift */; };
 		BCBCDB9121239B760070A359 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDB9021239B760070A359 /* Pin.swift */; };
 		BCBCDB952123A3F50070A359 /* MapViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDB942123A3F50070A359 /* MapViewHelper.swift */; };
+		BCBCDB982123B49B0070A359 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDB972123B49B0070A359 /* Constants.swift */; };
+		BCBCDB9A2123B5A20070A359 /* FlickClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDB992123B5A20070A359 /* FlickClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,8 +30,12 @@
 		BC5950C32120CA3500EF9E72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC5950CC2120CD8300EF9E72 /* TravelLocationsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelLocationsMapViewController.swift; sourceTree = "<group>"; };
 		BC5950CE2120CD9700EF9E72 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
+		BC8EDA0E21264FA300C55B65 /* FlickConvenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickConvenience.swift; sourceTree = "<group>"; };
+		BC8EDA102126517400C55B65 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		BCBCDB9021239B760070A359 /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		BCBCDB942123A3F50070A359 /* MapViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewHelper.swift; sourceTree = "<group>"; };
+		BCBCDB972123B49B0070A359 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		BCBCDB992123B5A20070A359 /* FlickClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +108,9 @@
 		BCBCDB8F21239B5D0070A359 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BCBCDB962123B4820070A359 /* Flick */,
 				BCBCDB9021239B760070A359 /* Pin.swift */,
+				BC8EDA102126517400C55B65 /* Photo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,6 +121,16 @@
 				BCBCDB942123A3F50070A359 /* MapViewHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		BCBCDB962123B4820070A359 /* Flick */ = {
+			isa = PBXGroup;
+			children = (
+				BCBCDB972123B49B0070A359 /* Constants.swift */,
+				BCBCDB992123B5A20070A359 /* FlickClient.swift */,
+				BC8EDA0E21264FA300C55B65 /* FlickConvenience.swift */,
+			);
+			path = Flick;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,8 +207,12 @@
 				BCBCDB952123A3F50070A359 /* MapViewHelper.swift in Sources */,
 				BC5950CD2120CD8300EF9E72 /* TravelLocationsMapViewController.swift in Sources */,
 				BC5950B82120CA3300EF9E72 /* AppDelegate.swift in Sources */,
+				BC8EDA112126517400C55B65 /* Photo.swift in Sources */,
 				BC5950CF2120CD9700EF9E72 /* PhotoAlbumViewController.swift in Sources */,
 				BCBCDB9121239B760070A359 /* Pin.swift in Sources */,
+				BCBCDB982123B49B0070A359 /* Constants.swift in Sources */,
+				BCBCDB9A2123B5A20070A359 /* FlickClient.swift in Sources */,
+				BC8EDA0F21264FA300C55B65 /* FlickConvenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

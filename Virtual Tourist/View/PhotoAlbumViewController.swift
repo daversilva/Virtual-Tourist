@@ -37,8 +37,8 @@ class PhotoAlbumViewController: UIViewController {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         
-        locationMapView.addAnnotation(annotation)
         locationMapView.setRegion(region, animated: true)
+        locationMapView.addAnnotation(annotation)
     }
 }
 
