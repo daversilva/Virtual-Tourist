@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import UIKit
 
-struct Photo: Codable {
+struct Photo {
     let title: String
     let url: String
+    var photo: UIImage
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension FlickClient {
     
@@ -50,12 +51,23 @@ extension FlickClient {
         return Int(arc4random_uniform(UInt32(pageLimit))) + 1
     }
     
+    func getimageData(_ imageUrl: String) -> UIImage {
+        let imageUrl = URL(string: imageUrl)
+        
+        guard let imageData = try? Data(contentsOf: imageUrl!), let image = UIImage(data: imageData) else {
+            return UIImage(named: "no-photo")!
+        }
+        
+        return image
+    }
+    
     private func parseJsonToPhoto(_ results: [[String:AnyObject]]) -> [Photo]{
         var photos = [Photo]()
         
         for result in results {
             photos.append(Photo(title: result[Constants.FlickrResponseKeys.Title] as? String ?? "",
-                                  url: result[Constants.FlickrResponseKeys.MediumURL] as? String ?? ""))
+                                  url: result[Constants.FlickrResponseKeys.MediumURL] as? String ?? "",
+                                  photo: getimageData((result[Constants.FlickrResponseKeys.MediumURL] as? String)!)))
         }
         
         return photos
