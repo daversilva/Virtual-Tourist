@@ -9,13 +9,11 @@
 import Foundation
 import MapKit
 
-class MapViewHelper {
+extension MKMapViewDelegate {
     
-    static let shared = MapViewHelper()
+    // MARK: Configuration the Pin
     
-    private init() {}
-    
-    func viewForAnnotation(_ mapView: MKMapView, _ annotation: MKAnnotation) -> MKAnnotationView? {
+    func configureForAnnotation(_ mapView: MKMapView, _ annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "locationPin"
         var locationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
@@ -31,5 +29,4 @@ class MapViewHelper {
         
         return locationView
     }
-    
 }
