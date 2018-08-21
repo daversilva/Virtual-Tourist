@@ -14,3 +14,4 @@ struct Photo {
     let url: String
     var photo: UIImage
 }
+

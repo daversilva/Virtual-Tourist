@@ -11,6 +11,8 @@ import MapKit
 
 class PhotoAlbumViewController: UIViewController {
     
+    // MARK: Variables
+    
     @IBOutlet weak var locationMapView: MKMapView!
     @IBOutlet weak var photosAlbumCollection: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -19,20 +21,23 @@ class PhotoAlbumViewController: UIViewController {
     override var activityIndicatorTag: Int { get { return ViewTag.photoAlbum.rawValue }}
     
     var coordinate: CLLocationCoordinate2D!
-    var photos = [Photo]()
+    
+    lazy var viewModel: PhotoAlbumViewModel = {
+        return PhotoAlbumViewModel()
+    }()
     
     // MARK: Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationMapView.delegate = self
-        loadPhotoAlbumLocationInMapView()
+        configureLocationMapView()
         
-        photosAlbumCollection.delegate = self
-        photosAlbumCollection.dataSource = self
+        configurePhotosAlbumCollection()
         
         configureFlowLayout()
+        
+        initViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,21 +45,35 @@ class PhotoAlbumViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    // MARK: Action
+    // MARK: Init ViewModel
     
-    @IBAction func newCollection(_ sender: UIButton) {
-        startActivityIndicator()
-        configureUI(false)
-        FlickClient.shared.imagesFromFlickByLatituteAndLongitude { (photos, success, error) in
-            if success {
-                self.photos = photos
-                DispatchQueue.main.async {
-                    self.photosAlbumCollection.reloadData()
-                    self.configureUI(true)
-                }
+    func initViewModel() {
+        
+        viewModel.updateLoadingStatus = { [unowned self] () in
+            let isLoading = self.viewModel.isLoading
+            if isLoading {
+                self.startActivityIndicator()
+            } else {
                 self.stopActivityIndicator()
             }
         }
+        
+        viewModel.reloadCollectionViewClosure = { [unowned self] () in
+            DispatchQueue.main.async {
+                self.photosAlbumCollection.reloadData()
+            }
+        }
+        
+        viewModel.updateUiEnableStatus = { [unowned self] () in
+            let isEnable = self.viewModel.isEnable
+            self.configureUI(isEnable)
+        }
+    }
+    
+    // MARK: Action
+    
+    @IBAction func newCollection(_ sender: UIButton) {
+        viewModel.newColletion()
     }
 
 }
@@ -86,8 +105,20 @@ extension PhotoAlbumViewController {
     }
     
     func configureUI(_ enable: Bool) {
-        newCollectionButton.isEnabled = enable
-        newCollectionButton.alpha = enable ? 1.0 : 0.5
+        DispatchQueue.main.async {
+            self.newCollectionButton.isEnabled = enable
+            self.newCollectionButton.alpha = enable ? 1.0 : 0.5
+        }
+    }
+    
+    func configureLocationMapView() {
+        locationMapView.delegate = self
+        loadPhotoAlbumLocationInMapView()
+    }
+    
+    func configurePhotosAlbumCollection() {
+        photosAlbumCollection.delegate = self
+        photosAlbumCollection.dataSource = self
     }
 
 }
@@ -112,13 +143,13 @@ extension PhotoAlbumViewController: UICollectionViewDelegate {
 
 extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return viewModel.numberOfCells
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCollectionViewCell
-        let photo = photos[(indexPath as NSIndexPath).row]
-        cell.photo.image = photo.photo
+        let cellViewModel = viewModel.getCellViewModel(at: indexPath)
+        cell.photo.image = cellViewModel.photo
         return cell
     }
     
