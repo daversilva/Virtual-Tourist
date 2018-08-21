@@ -129,13 +129,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		BC8FD51C212B84D500CE263F /* Virtural Tourist */ = {
+		BC8FD51C212B84D500CE263F /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
 				BCBCDB9021239B760070A359 /* Pin.swift */,
 				BC8EDA102126517400C55B65 /* Photo.swift */,
 			);
-			path = "Virtural Tourist";
+			path = "Virtual Tourist";
 			sourceTree = "<group>";
 		};
 		BC8FD51D212B8C9900CE263F /* ViewModel */ = {
@@ -150,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				BCBCDB962123B4820070A359 /* Flick */,
-				BC8FD51C212B84D500CE263F /* Virtural Tourist */,
+				BC8FD51C212B84D500CE263F /* Virtual Tourist */,
 			);
 			path = Model;
 			sourceTree = "<group>";
