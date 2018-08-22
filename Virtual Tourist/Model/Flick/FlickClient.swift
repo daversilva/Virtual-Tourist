@@ -11,11 +11,12 @@ import Foundation
 class FlickClient: NSObject {
     
     static let shared = FlickClient()
+    
     var session = URLSession.shared
     
     let statusCodeValid: (Int) -> Bool = { $0 >= 200 && $0 <= 299 }
     
-    override init() {
+    private override init() {
         super.init()
     }
     
