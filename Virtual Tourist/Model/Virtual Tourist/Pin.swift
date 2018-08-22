@@ -13,4 +13,10 @@ struct Pin {
     let latitude: Double
     let longitude: Double
     let coordinate: CLLocationCoordinate2D
+    
+    init(coordinate: CLLocationCoordinate2D) {
+        self.coordinate = coordinate
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
+    }
 }

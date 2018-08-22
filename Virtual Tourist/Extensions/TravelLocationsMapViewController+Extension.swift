@@ -30,8 +30,11 @@ extension TravelLocationsMapViewController {
     @objc func handleTapGesture(_ gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
             let touchPoint: CGPoint = gestureRecognizer.location(in: locationsMapView)
-            coordinate = locationsMapView.convert(touchPoint, toCoordinateFrom: locationsMapView)
+            let coordinate = locationsMapView.convert(touchPoint, toCoordinateFrom: locationsMapView)
             let annotation = MKPointAnnotation()
+            
+            pin = Pin(coordinate: coordinate)
+            
             annotation.coordinate = coordinate
             locationsMapView.addAnnotation(annotation)
         }
@@ -40,7 +43,7 @@ extension TravelLocationsMapViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == seguePhotoAlbum {
             let destination = segue.destination as! PhotoAlbumViewController
-            destination.coordinate = coordinate
+            destination.pin = pin
         }
     }
 }

@@ -36,11 +36,11 @@ class PhotoAlbumViewModel {
     var reloadCollectionViewClosure: (()->())?
     var updateUiEnableStatus: (()->())?
     
-    func newColletion() {
+    func newColletion(_ pin: Pin) {
         isLoading = true
         isEnable = false
         cellViewModels = []
-        FlickClient.shared.imagesFromFlickByLatituteAndLongitude { (photos, success, error) in
+        FlickClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
             if success {
                 self.cellViewModels = photos
             }

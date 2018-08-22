@@ -18,9 +18,9 @@ extension PhotoAlbumViewController {
     
     func loadPhotoAlbumLocationInMapView() {
         let span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(1.0/180.0), longitudeDelta: CLLocationDegrees(1.0/180.0))
-        let region = MKCoordinateRegion(center: coordinate, span: span)
+        let region = MKCoordinateRegion(center: pin.coordinate, span: span)
         let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
+        annotation.coordinate = pin.coordinate
         
         locationMapView.setRegion(region, animated: true)
         locationMapView.addAnnotation(annotation)

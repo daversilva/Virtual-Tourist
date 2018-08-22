@@ -20,7 +20,8 @@ class PhotoAlbumViewController: UIViewController {
     
     override var activityIndicatorTag: Int { get { return ViewTag.photoAlbum.rawValue } }
     
-    var coordinate: CLLocationCoordinate2D!
+    //var coordinate: CLLocationCoordinate2D!
+    var pin: Pin!
     
     lazy var viewModel: PhotoAlbumViewModel = {
         return PhotoAlbumViewModel()
@@ -73,7 +74,7 @@ class PhotoAlbumViewController: UIViewController {
     // MARK: Action
     
     @IBAction func newCollection(_ sender: UIButton) {
-        viewModel.newColletion()
+        viewModel.newColletion(pin)
     }
 
 }
