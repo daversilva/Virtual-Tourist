@@ -21,6 +21,8 @@ class PhotoAlbumViewController: UIViewController {
     override var activityIndicatorTag: Int { get { return ViewTag.photoAlbum.rawValue } }
     var pin: Pin!
     
+    var selectedPhotos = [PhotoAlbumCell]()
+    
     lazy var viewModel: PhotoAlbumViewModel = {
         return PhotoAlbumViewModel()
     }()

@@ -1,14 +1,14 @@
 //
-//  PhotoAlbumCollectionViewCell.swift
+//  PhotoAlbumCell.swift
 //  Virtual Tourist
 //
-//  Created by David Rodrigues on 19/08/2018.
+//  Created by David Rodrigues on 24/08/2018.
 //  Copyright © 2018 David Rodrigues. All rights reserved.
 //
 
 import UIKit
 
-class PhotoAlbumCollectionViewCell: UICollectionViewCell {
+class PhotoAlbumCell: UICollectionViewCell {
     
     @IBOutlet weak var photo: UIImageView!
     
@@ -17,5 +17,4 @@ class PhotoAlbumCollectionViewCell: UICollectionViewCell {
             photo.alpha = isSelected ? 0.5 : 1.0
         }
     }
-
 }
