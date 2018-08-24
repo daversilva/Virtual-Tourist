@@ -14,8 +14,7 @@ class TravelLocationsMapViewController: UIViewController {
     // MARK: Variables
     @IBOutlet weak var locationsMapView: MKMapView!
     let seguePhotoAlbum = "seguePhotoAlbum"
-    //var coordinate: CLLocationCoordinate2D!
-    var pin: Pin!
+    var pin: Pin?
     // MARK: Life cycle
     
     override func viewDidLoad() {

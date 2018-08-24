@@ -19,8 +19,6 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var newCollectionButton: UIButton!
     
     override var activityIndicatorTag: Int { get { return ViewTag.photoAlbum.rawValue } }
-    
-    //var coordinate: CLLocationCoordinate2D!
     var pin: Pin!
     
     lazy var viewModel: PhotoAlbumViewModel = {

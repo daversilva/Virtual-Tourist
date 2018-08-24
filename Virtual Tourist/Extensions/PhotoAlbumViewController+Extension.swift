@@ -10,10 +10,6 @@ import Foundation
 import UIKit
 import MapKit
 
-// MARK: PhotoAlbumViewController - Extension
-
-
-
 // MARK: MKMapViewDelegate - Methods
 
 extension PhotoAlbumViewController: MKMapViewDelegate {
