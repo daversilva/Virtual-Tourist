@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import UIKit
 
 class PhotoAlbumViewModel {
     
-    private var cellViewModels: [Photo] = [Photo]() {
+    private var photos: [Photo] = [Photo]()
+    
+    private var cellViewModels: [PhotoAlbumCellViewModel] = [PhotoAlbumCellViewModel]() {
         didSet {
             self.reloadCollectionViewClosure?()
         }
@@ -42,14 +45,32 @@ class PhotoAlbumViewModel {
         cellViewModels = []
         FlickClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
             if success {
-                self.cellViewModels = photos
+                //self.cellViewModels = photos
+                self.processFetchedPhoto(photos: photos)
             }
             self.isEnable = true
             self.isLoading = false
         }
     }
     
-    func getCellViewModel(at indexPath: IndexPath) -> Photo {
+    func getCellViewModel(at indexPath: IndexPath) -> PhotoAlbumCellViewModel {
         return cellViewModels[indexPath.row]
     }
+    
+    private func createCellViewModel(photo: Photo) -> PhotoAlbumCellViewModel {
+        return PhotoAlbumCellViewModel(photo: photo.photo)
+    }
+    
+    private func processFetchedPhoto(photos: [Photo]) {
+        self.photos = photos
+        var vms = [PhotoAlbumCellViewModel]()
+        for photo in photos {
+            vms.append(createCellViewModel(photo: photo))
+        }
+        self.cellViewModels = vms
+    }
+}
+
+struct PhotoAlbumCellViewModel {
+    let photo: UIImage
 }

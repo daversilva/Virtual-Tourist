@@ -117,5 +117,4 @@ extension PhotoAlbumViewController {
         photosAlbumCollection.delegate = self
         photosAlbumCollection.dataSource = self
     }
-    
 }

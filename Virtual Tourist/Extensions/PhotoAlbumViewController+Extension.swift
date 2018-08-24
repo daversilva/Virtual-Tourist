@@ -23,7 +23,13 @@ extension PhotoAlbumViewController: MKMapViewDelegate {
 
 extension PhotoAlbumViewController: UICollectionViewDelegate {
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        // TODO
+    }
 }
 
 // MARK: UICollectionViewDataSource - Methods
