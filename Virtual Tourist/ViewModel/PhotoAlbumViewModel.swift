@@ -19,6 +19,12 @@ class PhotoAlbumViewModel {
         }
     }
     
+    var selectedPhotos: [PhotoAlbumCellViewModel] = [PhotoAlbumCellViewModel]() {
+        didSet{
+            isPhotoSelected = selectedPhotos.count != 0
+        }
+    }
+    
     var isLoading: Bool = false {
         didSet {
             self.updateLoadingStatus?()
@@ -31,30 +37,73 @@ class PhotoAlbumViewModel {
         }
     }
     
+    var isPhotoSelected: Bool = false {
+        didSet {
+            self.updatePhotoSelected?()
+        }
+    }
+    
     var numberOfCells: Int {
         return cellViewModels.count
+    }
+    
+    func cellForItemAt(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCell
+        let cellViewModel = getCellViewModel(at: indexPath)
+        cell.photo.image = cellViewModel.photo
+        return cell
     }
     
     var updateLoadingStatus: (()->())?
     var reloadCollectionViewClosure: (()->())?
     var updateUiEnableStatus: (()->())?
+    var updatePhotoSelected: (()->())?
     
     func newColletion(_ pin: Pin) {
-        isLoading = true
-        isEnable = false
-        cellViewModels = []
+        isDownloadingPhotos(true)
+        cleanViewModel()
         FlickClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
             if success {
-                //self.cellViewModels = photos
                 self.processFetchedPhoto(photos: photos)
             }
-            self.isEnable = true
-            self.isLoading = false
+            self.isDownloadingPhotos(false)
+        }
+    }
+    
+    func cleanViewModel() {
+        cellViewModels = []
+        selectedPhotos = []
+    }
+    
+    func isDownloadingPhotos(_ start: Bool) {
+        self.isLoading = start
+        self.isEnable = !start
+    }
+    
+    func selectedPhotosAppend(indexPath: IndexPath) {
+        let photo = getCellViewModel(at: indexPath)
+        selectedPhotos.append(photo)
+    }
+    
+    func selectedPhotosRemove(indexPath: IndexPath) {
+        let photo = getCellViewModel(at: indexPath)
+        if let index = selectedPhotos.index(where: { $0 == photo }) {
+            selectedPhotos.remove(at: index)
         }
     }
     
     func getCellViewModel(at indexPath: IndexPath) -> PhotoAlbumCellViewModel {
         return cellViewModels[indexPath.row]
+    }
+    
+    func removePhotosSelected() {
+        for photo in selectedPhotos {
+            if let index = cellViewModels.index(of: photo) {
+                cellViewModels.remove(at: index)
+            }
+        }
+        
+        selectedPhotos.removeAll()
     }
     
     private func createCellViewModel(photo: Photo) -> PhotoAlbumCellViewModel {
@@ -69,8 +118,14 @@ class PhotoAlbumViewModel {
         }
         self.cellViewModels = vms
     }
+
 }
 
-struct PhotoAlbumCellViewModel {
+struct PhotoAlbumCellViewModel: Equatable {
     let photo: UIImage
+    
+    static func == (lhs: PhotoAlbumCellViewModel, rhs: PhotoAlbumCellViewModel) -> Bool {
+        return lhs.photo == rhs.photo
+    }
 }
+

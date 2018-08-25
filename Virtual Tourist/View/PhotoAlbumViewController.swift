@@ -21,8 +21,6 @@ class PhotoAlbumViewController: UIViewController {
     override var activityIndicatorTag: Int { get { return ViewTag.photoAlbum.rawValue } }
     var pin: Pin!
     
-    var selectedPhotos = [PhotoAlbumCell]()
-    
     lazy var viewModel: PhotoAlbumViewModel = {
         return PhotoAlbumViewModel()
     }()
@@ -44,6 +42,8 @@ class PhotoAlbumViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        configureRightBarButtonItem()
     }
     
     // MARK: Init ViewModel
@@ -52,11 +52,7 @@ class PhotoAlbumViewController: UIViewController {
         
         viewModel.updateLoadingStatus = { [unowned self] () in
             let isLoading = self.viewModel.isLoading
-            if isLoading {
-                self.startActivityIndicator()
-            } else {
-                self.stopActivityIndicator()
-            }
+            isLoading ? self.startActivityIndicator() : self.stopActivityIndicator()
         }
         
         viewModel.reloadCollectionViewClosure = { [unowned self] () in
@@ -68,6 +64,11 @@ class PhotoAlbumViewController: UIViewController {
         viewModel.updateUiEnableStatus = { [unowned self] () in
             let isEnable = self.viewModel.isEnable
             self.configureUI(isEnable)
+        }
+        
+        viewModel.updatePhotoSelected = { [unowned self] () in
+            let isPhotoSelected = self.viewModel.isPhotoSelected
+            self.navigationItem.rightBarButtonItem?.isEnabled = isPhotoSelected
         }
     }
     
@@ -118,5 +119,16 @@ extension PhotoAlbumViewController {
     func configurePhotosAlbumCollection() {
         photosAlbumCollection.delegate = self
         photosAlbumCollection.dataSource = self
+        photosAlbumCollection.allowsMultipleSelection = true
+    }
+    
+    private func configureRightBarButtonItem() {
+        let buttonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeItems))
+        self.navigationItem.rightBarButtonItem = buttonItem
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
+    @objc func removeItems() {
+        viewModel.removePhotosSelected()
     }
 }

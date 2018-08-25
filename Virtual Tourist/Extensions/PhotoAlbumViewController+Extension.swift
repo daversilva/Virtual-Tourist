@@ -24,12 +24,13 @@ extension PhotoAlbumViewController: MKMapViewDelegate {
 extension PhotoAlbumViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO
+        viewModel.selectedPhotosAppend(indexPath: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        viewModel.selectedPhotosRemove(indexPath: indexPath)
     }
 
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        // TODO
-    }
 }
 
 // MARK: UICollectionViewDataSource - Methods
@@ -40,10 +41,7 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCell
-        let cellViewModel = viewModel.getCellViewModel(at: indexPath)
-        cell.photo.image = cellViewModel.photo
-        return cell
+        return viewModel.cellForItemAt(collectionView, indexPath)
     }
     
 }
