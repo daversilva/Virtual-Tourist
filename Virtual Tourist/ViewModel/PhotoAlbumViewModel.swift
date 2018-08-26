@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+let imageCache = NSCache<NSString, UIImage>()
+
 class PhotoAlbumViewModel {
     
     private var photos: [Photo] = [Photo]()
@@ -50,7 +52,26 @@ class PhotoAlbumViewModel {
     func cellForItemAt(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCell
         let cellViewModel = getCellViewModel(at: indexPath)
-        cell.photo.image = cellViewModel.photo
+        
+        cell.set(image: nil)
+        
+        if let imageFromCache = imageCache.object(forKey: cellViewModel.url as NSString) {
+            cell.set(image: imageFromCache)
+        } else {
+            let imageUrl = URL(string: cellViewModel.url)
+            
+            DispatchQueue.global().async {
+                let data = try? Data(contentsOf: imageUrl!)
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        imageCache.setObject(image, forKey: cellViewModel.url as NSString)
+                        cell.set(image: image)
+                    }
+                }
+                
+            }
+        }
+        
         return cell
     }
     
@@ -107,7 +128,7 @@ class PhotoAlbumViewModel {
     }
     
     private func createCellViewModel(photo: Photo) -> PhotoAlbumCellViewModel {
-        return PhotoAlbumCellViewModel(photo: photo.photo)
+        return PhotoAlbumCellViewModel(title: photo.title ,url: photo.url)
     }
     
     private func processFetchedPhoto(photos: [Photo]) {
@@ -122,10 +143,10 @@ class PhotoAlbumViewModel {
 }
 
 struct PhotoAlbumCellViewModel: Equatable {
-    let photo: UIImage
+    let title: String
+    let url: String
     
     static func == (lhs: PhotoAlbumCellViewModel, rhs: PhotoAlbumCellViewModel) -> Bool {
-        return lhs.photo == rhs.photo
+        return lhs.url == rhs.url
     }
 }
-

@@ -17,4 +17,12 @@ class PhotoAlbumCell: UICollectionViewCell {
             photo.alpha = isSelected ? 0.5 : 1.0
         }
     }
+    
+    func set(image: UIImage?) {
+        photo.image = image
+        
+        if photo != nil {
+            photo.backgroundColor = UIColor.gray
+        }
+    }
 }

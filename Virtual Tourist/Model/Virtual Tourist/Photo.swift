@@ -12,6 +12,5 @@ import UIKit
 struct Photo {
     let title: String
     let url: String
-    var photo: UIImage
 }
 
