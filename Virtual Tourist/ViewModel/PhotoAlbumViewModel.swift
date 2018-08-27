@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-let imageCache = NSCache<NSString, UIImage>()
-
 class PhotoAlbumViewModel {
     
     private var photos: [Photo] = [Photo]()
@@ -54,23 +52,7 @@ class PhotoAlbumViewModel {
         let cellViewModel = getCellViewModel(at: indexPath)
         
         cell.set(image: nil)
-        
-        if let imageFromCache = imageCache.object(forKey: cellViewModel.url as NSString) {
-            cell.set(image: imageFromCache)
-        } else {
-            let imageUrl = URL(string: cellViewModel.url)
-            
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: imageUrl!)
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        imageCache.setObject(image, forKey: cellViewModel.url as NSString)
-                        cell.set(image: image)
-                    }
-                }
-                
-            }
-        }
+        DownloadImage.shared.loadImageViewCell(cell: cell, urlString: cellViewModel.url)
         
         return cell
     }

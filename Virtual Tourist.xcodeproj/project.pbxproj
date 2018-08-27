@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC4460332133028200297111 /* DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4460322133028200297111 /* DownloadImage.swift */; };
 		BC49E695212A3ECD00B6A6D0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49E694212A3ECD00B6A6D0 /* UIViewController+Extension.swift */; };
 		BC5950B82120CA3300EF9E72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5950B72120CA3300EF9E72 /* AppDelegate.swift */; };
 		BC5950BD2120CA3300EF9E72 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5950BB2120CA3300EF9E72 /* Main.storyboard */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC4460322133028200297111 /* DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImage.swift; sourceTree = "<group>"; };
 		BC49E694212A3ECD00B6A6D0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		BC5950B42120CA3300EF9E72 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC5950B72120CA3300EF9E72 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		BCBCDB932123A3BE0070A359 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BC4460322133028200297111 /* DownloadImage.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				BC49E695212A3ECD00B6A6D0 /* UIViewController+Extension.swift in Sources */,
 				BCBCDB982123B49B0070A359 /* Constants.swift in Sources */,
 				BCBCDB9A2123B5A20070A359 /* FlickClient.swift in Sources */,
+				BC4460332133028200297111 /* DownloadImage.swift in Sources */,
 				BC8EDA0F21264FA300C55B65 /* FlickConvenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
