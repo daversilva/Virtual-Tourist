@@ -11,21 +11,25 @@ import CoreData
 import MapKit
 
 class TravelLocationsViewModel {
-    
+    // MARK - Variables
     private let viewContext = DataController.shared.viewContext
     private var fetchedResultController: NSFetchedResultsController<Pin>!
+}
+
+extension TravelLocationsViewModel {
+    
+    // MARK - Methods Core Data
     
     func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
         fetchRequest.sortDescriptors = []
         
         fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultController.delegate = TravelLocationsMapViewController()
         
         do {
             try fetchedResultController.performFetch()
         } catch let error {
-            fatalError("The fetch could not be performed: \(error)")
+            print("The fetch could not be performed: \(error)")
         }
     }
     
@@ -52,15 +56,13 @@ class TravelLocationsViewModel {
     
     func getPinWithViewMap(_ view: MKAnnotationView) -> Pin {
         
-        guard let coordinate = view.annotation?.coordinate else {
-            fatalError("view is nil")
-        }
+        guard let coordinate = view.annotation?.coordinate else { fatalError("view is nil") }
         
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
         let predicate = NSPredicate(format: "latitude == %@ AND longitude == %@", argumentArray: [coordinate.latitude, coordinate.longitude])
         fetchRequest.predicate = predicate
         
-        guard let result = try? viewContext.fetch(fetchRequest) as? [Pin], let pin = result?.first else {
+        guard let result = try? viewContext.fetch(fetchRequest), let pin = result.first else {
             print("Pin not found!")
             return Pin()
         }

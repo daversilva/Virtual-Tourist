@@ -29,7 +29,3 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
 // MARK: UIGestureRecognizerDelegate - Methods
 
 extension TravelLocationsMapViewController: UIGestureRecognizerDelegate {}
-
-// MARK: NSFetchedResultsControllerDelegate - Methods
-
-extension TravelLocationsMapViewController: NSFetchedResultsControllerDelegate {}
