@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension FlickClient {
+extension FlickrClient {
     
     func imagesFromFlickByLatituteAndLongitude(_ pin: Pin? = nil, completionForHandler: @escaping (_ photos: [Photo],_ success: Bool, _ error: String?) -> Void) {
         

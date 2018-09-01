@@ -8,9 +8,9 @@
 
 import Foundation
 
-class FlickClient: NSObject {
+class FlickrClient: NSObject {
     
-    static let shared = FlickClient()
+    static let shared = FlickrClient()
     
     var session = URLSession.shared
     
