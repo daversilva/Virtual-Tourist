@@ -50,12 +50,13 @@ extension FlickClient {
         return Int(arc4random_uniform(UInt32(pageLimit))) + 1
     }
     
-    private func parseJsonToPhoto(_ results: [[String:AnyObject]]) -> [Photo]{
+    private func parseJsonToPhoto(_ results: [[String:AnyObject]]) -> [Photo] {
         var photos = [Photo]()
         
         for result in results {
-            photos.append(Photo(title: result[Constants.FlickrResponseKeys.Title] as? String ?? "",
-                                  url: result[Constants.FlickrResponseKeys.MediumURL] as? String ?? ""))
+            let photo = Photo(context: DataController.shared.viewContext)
+            photo.url = result[Constants.FlickrResponseKeys.MediumURL] as? String ?? ""
+            photos.append(photo)
         }
         
         return photos
