@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 import MapKit
-
-
+import CoreData
 
 // MARK: MKMapViewDelegate - Methods
 
@@ -21,7 +20,8 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        performSegue(withIdentifier: seguePhotoAlbum, sender: nil)
+        let pin = viewModel.getPinWithViewMap(view)
+        performSegue(withIdentifier: seguePhotoAlbum, sender: pin)
     }
     
 }
@@ -29,3 +29,7 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
 // MARK: UIGestureRecognizerDelegate - Methods
 
 extension TravelLocationsMapViewController: UIGestureRecognizerDelegate {}
+
+// MARK: NSFetchedResultsControllerDelegate - Methods
+
+extension TravelLocationsMapViewController: NSFetchedResultsControllerDelegate {}
