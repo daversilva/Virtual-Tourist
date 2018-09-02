@@ -30,7 +30,9 @@ extension FlickrClient {
                                     return
                                 }
                                 
-                                let photos = self.parseJsonToPhoto(photosArray)
+                                guard let pin = pin else { return }
+                                
+                                let photos = self.parseJsonToPhoto(pin, photosArray)
                                 completionForHandler(photos, true, nil)
                             } else {
                                 completionForHandler([], false, error)
@@ -50,12 +52,13 @@ extension FlickrClient {
         return Int(arc4random_uniform(UInt32(pageLimit))) + 1
     }
     
-    private func parseJsonToPhoto(_ results: [[String:AnyObject]]) -> [Photo] {
+    private func parseJsonToPhoto(_ pin: Pin, _ results: [[String:AnyObject]]) -> [Photo] {
         var photos = [Photo]()
         
         for result in results {
             let photo = Photo(context: DataController.shared.viewContext)
             photo.url = result[Constants.FlickrResponseKeys.MediumURL] as? String ?? ""
+            photo.pin = pin
             photos.append(photo)
         }
         

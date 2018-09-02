@@ -102,9 +102,16 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This place has no images! 😕" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hv-JH-IaU">
+                                <rect key="frame" x="49.666666666666657" y="392.33333333333331" width="276" height="26.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" red="0.0" green="0.46666666670000001" blue="0.98431372549999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="4hv-JH-IaU" firstAttribute="centerX" secondItem="6du-8P-gWl" secondAttribute="centerX" id="2gH-ca-m3r"/>
                             <constraint firstItem="H0h-Ai-gxd" firstAttribute="trailing" secondItem="ZPq-pg-Nyx" secondAttribute="trailing" id="8nR-DT-mov"/>
                             <constraint firstItem="cLW-aY-gRK" firstAttribute="top" secondItem="QMB-QY-Smt" secondAttribute="bottom" id="9k8-R2-JYc"/>
                             <constraint firstItem="QMB-QY-Smt" firstAttribute="top" secondItem="H0h-Ai-gxd" secondAttribute="top" id="KIz-rF-EJU"/>
@@ -115,6 +122,7 @@
                             <constraint firstItem="cLW-aY-gRK" firstAttribute="trailing" secondItem="H0h-Ai-gxd" secondAttribute="trailing" id="rgf-N3-2gE"/>
                             <constraint firstItem="cLW-aY-gRK" firstAttribute="leading" secondItem="H0h-Ai-gxd" secondAttribute="leading" id="tpp-Hr-AEu"/>
                             <constraint firstItem="QMB-QY-Smt" firstAttribute="trailing" secondItem="H0h-Ai-gxd" secondAttribute="trailing" id="vhy-ix-uUk"/>
+                            <constraint firstItem="4hv-JH-IaU" firstAttribute="centerY" secondItem="6du-8P-gWl" secondAttribute="centerY" id="xmb-hy-O1x"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="H0h-Ai-gxd"/>
                     </view>
@@ -122,6 +130,7 @@
                         <outlet property="flowLayout" destination="u7B-VQ-KAb" id="zed-iM-YID"/>
                         <outlet property="locationMapView" destination="QMB-QY-Smt" id="Bhn-u1-1Gg"/>
                         <outlet property="newCollectionButton" destination="ZPq-pg-Nyx" id="DRk-Q2-En9"/>
+                        <outlet property="noImages" destination="4hv-JH-IaU" id="A9g-pT-FQ3"/>
                         <outlet property="photosAlbumCollection" destination="cLW-aY-gRK" id="IHM-g6-AKT"/>
                     </connections>
                 </viewController>

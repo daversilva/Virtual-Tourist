@@ -8,8 +8,14 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class PhotoAlbumViewModel {
+    
+    // MARK: Variables
+    
+    private let viewContext = DataController.shared.viewContext
+    private var fetchedResultController: NSFetchedResultsController<Photo>!
     
     private var photos: [Photo] = [Photo]()
     
@@ -19,7 +25,7 @@ class PhotoAlbumViewModel {
         }
     }
     
-    var selectedPhotos: [PhotoAlbumCellViewModel] = [PhotoAlbumCellViewModel]() {
+    var selectedPhotos: [Photo] = [Photo]() {
         didSet{
             isPhotoSelected = selectedPhotos.count != 0
         }
@@ -43,31 +49,50 @@ class PhotoAlbumViewModel {
         }
     }
     
+    var isImagesFound: Bool = true {
+        didSet {
+            self.updateNoImagesLabel?()
+        }
+    }
+    
     var numberOfCells: Int {
         return cellViewModels.count
     }
     
-    func cellForItemAt(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCell
-        let cellViewModel = getCellViewModel(at: indexPath)
-        
-        cell.set(image: nil)
-        DownloadImage.shared.loadImageViewCell(cell: cell, urlString: cellViewModel.url)
-        
-        return cell
+    var numberOfSections: Int {
+        return fetchedResultController.sections?.count ?? 1
+    }
+    
+    var numberOfItemsInSection: Int {
+        return fetchedResultController.sections?[0].numberOfObjects ?? 0
     }
     
     var updateLoadingStatus: (()->())?
     var reloadCollectionViewClosure: (()->())?
     var updateUiEnableStatus: (()->())?
     var updatePhotoSelected: (()->())?
+    var updateNoImagesLabel: (()->())?
+    
+    // MARK: Methods
     
     func newColletion(_ pin: Pin) {
         isDownloadingPhotos(true)
         cleanViewModel()
-        FlickClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
+        FlickrClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
             if success {
-                self.processFetchedPhoto(photos: photos)
+                if photos.count > 0 {
+                    self.processFetchedPhoto(photos: photos)
+                    
+                    self.viewContext.perform {
+                        try? self.viewContext.save()
+                        
+                        DownloadImage.shared.downloadImages(photos, self.viewContext) {
+                            
+                        }
+                    }
+                } else {
+                    self.isImagesFound = false
+                }
             }
             self.isDownloadingPhotos(false)
         }
@@ -76,6 +101,10 @@ class PhotoAlbumViewModel {
     func cleanViewModel() {
         cellViewModels = []
         selectedPhotos = []
+        
+        let objects = fetchedResultController.fetchedObjects!
+        _ = objects.map { viewContext.delete($0) }
+        try? viewContext.save()
     }
     
     func isDownloadingPhotos(_ start: Bool) {
@@ -84,15 +113,20 @@ class PhotoAlbumViewModel {
     }
     
     func selectedPhotosAppend(indexPath: IndexPath) {
-        let photo = getCellViewModel(at: indexPath)
+        let photo = fetchedResultController.object(at: indexPath)
         selectedPhotos.append(photo)
     }
     
     func selectedPhotosRemove(indexPath: IndexPath) {
-        let photo = getCellViewModel(at: indexPath)
+        let photo = fetchedResultController.object(at: indexPath)
+        
         if let index = selectedPhotos.index(where: { $0 == photo }) {
             selectedPhotos.remove(at: index)
         }
+    }
+    
+    func getPhotoForIndexPath(at indexPath: IndexPath) -> Photo {
+        return fetchedResultController.object(at: indexPath)
     }
     
     func getCellViewModel(at indexPath: IndexPath) -> PhotoAlbumCellViewModel {
@@ -101,16 +135,16 @@ class PhotoAlbumViewModel {
     
     func removePhotosSelected() {
         for photo in selectedPhotos {
-            if let index = cellViewModels.index(of: photo) {
-                cellViewModels.remove(at: index)
-            }
+            let index = fetchedResultController.indexPath(forObject: photo)
+            let object = fetchedResultController.object(at: index!)
+            viewContext.delete(object)
+            try? viewContext.save()
         }
-        
         selectedPhotos.removeAll()
     }
     
     private func createCellViewModel(photo: Photo) -> PhotoAlbumCellViewModel {
-        return PhotoAlbumCellViewModel(title: photo.title ,url: photo.url)
+        return PhotoAlbumCellViewModel(url: photo.url!)
     }
     
     private func processFetchedPhoto(photos: [Photo]) {
@@ -121,14 +155,43 @@ class PhotoAlbumViewModel {
         }
         self.cellViewModels = vms
     }
-
+    
 }
 
 struct PhotoAlbumCellViewModel: Equatable {
-    let title: String
     let url: String
     
     static func == (lhs: PhotoAlbumCellViewModel, rhs: PhotoAlbumCellViewModel) -> Bool {
         return lhs.url == rhs.url
+    }
+}
+
+extension PhotoAlbumViewModel {
+    
+    // MARK - Methods Core Data
+    
+    private func save() {
+        do {
+            try DataController.shared.persistentContainer.viewContext.save()
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    func setupFetchedResultsController(_ pin: Pin) {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate = predicate
+        fetchRequest.sortDescriptors = []
+        
+        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController.delegate = PhotoAlbumViewController()
+        
+        do {
+            try fetchedResultController.performFetch()
+        } catch let error {
+            print("The fetch could not be performed: \(error)")
+        }
+        
     }
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoAlbumViewController: UIViewController {
     
@@ -17,8 +18,14 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var photosAlbumCollection: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIButton!
+    @IBOutlet weak var noImages: UILabel!
+    
+    var insertedIndexPaths: [IndexPath]!
+    var deletedIndexPaths: [IndexPath]!
+    var updatedIndexPaths: [IndexPath]!
     
     override var activityIndicatorTag: Int { get { return ViewTag.photoAlbum.rawValue } }
+    
     var pin: Pin!
     
     lazy var viewModel: PhotoAlbumViewModel = {
@@ -70,6 +77,15 @@ class PhotoAlbumViewController: UIViewController {
             let isPhotoSelected = self.viewModel.isPhotoSelected
             self.navigationItem.rightBarButtonItem?.isEnabled = isPhotoSelected
         }
+        
+        viewModel.updateNoImagesLabel = { [unowned self] () in
+            let isEnable = self.viewModel.isImagesFound
+            DispatchQueue.main.async {
+                self.noImages.isHidden = isEnable
+            }
+        }
+        
+        viewModel.setupFetchedResultsController(pin)
     }
     
     // MARK: Action
@@ -85,11 +101,11 @@ extension PhotoAlbumViewController {
     // MARK: Methods
     
     func loadPhotoAlbumLocationInMapView() {
+        let coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
         let span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(1.0/180.0), longitudeDelta: CLLocationDegrees(1.0/180.0))
-        let region = MKCoordinateRegion(center: pin.coordinate, span: span)
+        let region = MKCoordinateRegion(center: coordinate, span: span)
         let annotation = MKPointAnnotation()
-        annotation.coordinate = pin.coordinate
-        
+        annotation.coordinate = coordinate
         locationMapView.setRegion(region, animated: true)
         locationMapView.addAnnotation(annotation)
     }
@@ -97,7 +113,6 @@ extension PhotoAlbumViewController {
     func configureFlowLayout() {
         let space: CGFloat = 4.0
         let dimension = (view.frame.size.width - (4 * space)) / 3.0
-        
         flowLayout.itemSize = CGSize(width: dimension , height: dimension)
         flowLayout.minimumInteritemSpacing = 4
         flowLayout.minimumLineSpacing = 4
@@ -131,4 +146,5 @@ extension PhotoAlbumViewController {
     @objc func removeItems() {
         viewModel.removePhotosSelected()
     }
+    
 }
