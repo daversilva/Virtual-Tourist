@@ -48,12 +48,10 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCell
 
-        cell.set(image: nil)
         let photo = viewModel.getPhotoForIndexPath(at: indexPath)
         
-        if let image = photo.image {
-            cell.set(image: UIImage(data: image))
-        }
+        cell.set(image: nil)
+        DownloadImage.shared.loadImageViewCell(cell: cell, photo: photo)
         
         return cell
     }

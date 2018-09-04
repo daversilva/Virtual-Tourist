@@ -85,11 +85,8 @@ class PhotoAlbumViewModel {
                     
                     self.viewContext.perform {
                         try? self.viewContext.save()
-                        
-                        DownloadImage.shared.downloadImages(photos, self.viewContext) {
-                            
-                        }
                     }
+                    
                 } else {
                     self.isImagesFound = false
                 }
