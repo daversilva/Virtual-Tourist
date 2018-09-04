@@ -24,6 +24,11 @@ class DownloadImage {
         
         if let imageFromCache = imageCache.object(forKey: urlString as NSString) {
             cell.set(image: imageFromCache)
+            return
+        }
+        
+        if let imageFromCoreData = photo.image  {
+            cell.set(image: UIImage(data: imageFromCoreData))
         } else {
             
             guard let imageUrl = URL(string: urlString) else {
