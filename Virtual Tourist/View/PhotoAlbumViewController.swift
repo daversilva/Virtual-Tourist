@@ -12,6 +12,15 @@ import CoreData
 
 class PhotoAlbumViewController: UIViewController {
     
+    let viewContext = DataController.shared.viewContext
+    var fetchedResultController: NSFetchedResultsController<Photo>!
+    
+    var selectedToDelete: [IndexPath] = [] {
+        didSet{
+            self.navigationItem.rightBarButtonItem?.isEnabled = selectedToDelete.count != 0
+        }
+    }
+    
     // MARK: Variables
     
     @IBOutlet weak var locationMapView: MKMapView!
@@ -44,6 +53,8 @@ class PhotoAlbumViewController: UIViewController {
         configureFlowLayout()
         
         initViewModel()
+        
+        setupFetchedResultsController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,12 +71,6 @@ class PhotoAlbumViewController: UIViewController {
         viewModel.updateLoadingStatus = { [unowned self] () in
             let isLoading = self.viewModel.isLoading
             isLoading ? self.startActivityIndicator() : self.stopActivityIndicator()
-        }
-        
-        viewModel.reloadCollectionViewClosure = { [unowned self] () in
-            DispatchQueue.main.async {
-                self.photosAlbumCollection.reloadData()
-            }
         }
         
         viewModel.updateUiEnableStatus = { [unowned self] () in
@@ -85,13 +90,33 @@ class PhotoAlbumViewController: UIViewController {
             }
         }
         
-        viewModel.setupFetchedResultsController(pin)
     }
     
     // MARK: Action
     
     @IBAction func newCollection(_ sender: UIButton) {
-        viewModel.newColletion(pin)
+        
+        viewModel.isDownloadingPhotos(true)
+        selectedToDelete = []
+        
+        let objects = fetchedResultController.fetchedObjects!
+        _ = objects.map { viewContext.delete($0) }
+        try? viewContext.save()
+
+        FlickrClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
+            if success {
+                if photos.count > 0 {
+                    
+                    self.viewContext.perform {
+                        try? self.viewContext.save()
+                    }
+                    
+                } else {
+                    self.viewModel.isImagesFound = false
+                }
+            }
+            self.viewModel.isDownloadingPhotos(false)
+        }
     }
 
 }
@@ -144,7 +169,35 @@ extension PhotoAlbumViewController {
     }
     
     @objc func removeItems() {
-        viewModel.removePhotosSelected()
+        for indexPath in selectedToDelete {
+            if selectedToDelete.contains(indexPath) {
+                viewContext.delete(fetchedResultController.object(at: indexPath))
+            }
+        }
+        
+        do {
+            try viewContext.save()
+        } catch let error {
+            print("Remove photo on Core Data Failed: \(error)")
+        }
+        
+        selectedToDelete.removeAll()
+    }
+    
+    func setupFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate = predicate
+        fetchRequest.sortDescriptors = []
+        
+        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController.delegate = self
+        
+        do {
+            try fetchedResultController.performFetch()
+        } catch let error {
+            print("The fetch could not be performed: \(error)")
+        }
     }
     
 }

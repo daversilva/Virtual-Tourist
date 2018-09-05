@@ -24,16 +24,16 @@ extension PhotoAlbumViewController: MKMapViewDelegate {
 
 extension PhotoAlbumViewController: UICollectionViewDelegate {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.numberOfSections
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.selectedPhotosAppend(indexPath: indexPath)
+        selectedToDelete.append(indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        viewModel.selectedPhotosRemove(indexPath: indexPath)
+        for index in 0..<selectedToDelete.count {
+            if selectedToDelete.contains(indexPath) {
+                selectedToDelete.remove(at: index)
+            }
+        }
     }
 
 }
@@ -41,14 +41,18 @@ extension PhotoAlbumViewController: UICollectionViewDelegate {
 // MARK: UICollectionViewDataSource - Methods
 
 extension PhotoAlbumViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return fetchedResultController.sections?.count ?? 0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItemsInSection
+        return fetchedResultController.sections?[0].numberOfObjects ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCell
-
-        let photo = viewModel.getPhotoForIndexPath(at: indexPath)
+        let photo = fetchedResultController.object(at: indexPath)
         
         cell.set(image: nil)
         DownloadImage.shared.loadImageViewCell(cell: cell, photo: photo)
@@ -59,10 +63,11 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
 
 extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        insertedIndexPaths = [IndexPath]()
-        deletedIndexPaths = [IndexPath]()
-        updatedIndexPaths = [IndexPath]()
+        insertedIndexPaths = []
+        deletedIndexPaths = []
+        updatedIndexPaths = []
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
