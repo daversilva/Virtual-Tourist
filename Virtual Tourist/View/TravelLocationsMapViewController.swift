@@ -113,3 +113,22 @@ extension TravelLocationsMapViewController {
         }
     }
 }
+
+// MARK: MKMapViewDelegate - Methods
+
+extension TravelLocationsMapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        return configureForAnnotation(mapView, annotation)
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let pin = viewModel.getPinWithViewMap(view)
+        performSegue(withIdentifier: seguePhotoAlbum, sender: pin)
+    }
+    
+}
+
+// MARK: UIGestureRecognizerDelegate - Methods
+
+extension TravelLocationsMapViewController: UIGestureRecognizerDelegate {}

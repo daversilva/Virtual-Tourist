@@ -14,6 +14,8 @@ class PhotoAlbumViewModel {
     
     // MARK: Variables
     
+    let viewContext = DataController.shared.viewContext
+    
     var isLoading: Bool = false {
         didSet {
             self.updateLoadingStatus?()
@@ -26,12 +28,6 @@ class PhotoAlbumViewModel {
         }
     }
     
-    var isPhotoSelected: Bool = false {
-        didSet {
-            self.updatePhotoSelected?()
-        }
-    }
-    
     var isImagesFound: Bool = true {
         didSet {
             self.updateNoImagesLabel?()
@@ -41,7 +37,6 @@ class PhotoAlbumViewModel {
     var updateLoadingStatus: (()->())?
     var reloadCollectionViewClosure: (()->())?
     var updateUiEnableStatus: (()->())?
-    var updatePhotoSelected: (()->())?
     var updateNoImagesLabel: (()->())?
     
     // MARK: Methods
@@ -49,6 +44,30 @@ class PhotoAlbumViewModel {
     func isDownloadingPhotos(_ start: Bool) {
         self.isLoading = start
         self.isEnable = !start
+    }
+    
+    func newCollectionFromFlickr(_ pin: Pin, _ fetchedController: NSFetchedResultsController<Photo>) {
+        
+        isDownloadingPhotos(true)
+        
+        let objects = fetchedController.fetchedObjects!
+        _ = objects.map { viewContext.delete($0) }
+        try? viewContext.save()
+        
+        FlickrClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
+            if success {
+                if photos.count > 0 {
+                    
+                    self.viewContext.perform {
+                        try? self.viewContext.save()
+                    }
+                    
+                } else {
+                    self.isImagesFound = false
+                }
+            }
+            self.isDownloadingPhotos(false)
+        }
     }
     
 }

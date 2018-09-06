@@ -12,15 +12,6 @@ import CoreData
 
 class PhotoAlbumViewController: UIViewController {
     
-    let viewContext = DataController.shared.viewContext
-    var fetchedResultController: NSFetchedResultsController<Photo>!
-    
-    var selectedToDelete: [IndexPath] = [] {
-        didSet{
-            self.navigationItem.rightBarButtonItem?.isEnabled = selectedToDelete.count != 0
-        }
-    }
-    
     // MARK: Variables
     
     @IBOutlet weak var locationMapView: MKMapView!
@@ -29,13 +20,12 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var newCollectionButton: UIButton!
     @IBOutlet weak var noImages: UILabel!
     
-    var insertedIndexPaths: [IndexPath]!
-    var deletedIndexPaths: [IndexPath]!
-    var updatedIndexPaths: [IndexPath]!
+    let viewContext = DataController.shared.viewContext
+    var fetchedResultController: NSFetchedResultsController<Photo>!
+    var pin: Pin!
+    let photoAlbumDDS = PhotoAlbumDelegateDataSource()
     
     override var activityIndicatorTag: Int { get { return ViewTag.photoAlbum.rawValue } }
-    
-    var pin: Pin!
     
     lazy var viewModel: PhotoAlbumViewModel = {
         return PhotoAlbumViewModel()
@@ -48,13 +38,13 @@ class PhotoAlbumViewController: UIViewController {
         
         configureLocationMapView()
         
-        configurePhotosAlbumCollection()
+        setupPhotoDelegateDataSource()
         
         configureFlowLayout()
         
         initViewModel()
         
-        setupFetchedResultsController()
+        loadNewCollection()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +52,14 @@ class PhotoAlbumViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         
         configureRightBarButtonItem()
+    }
+    
+    func setupPhotoDelegateDataSource() {
+        photoAlbumDDS.photosAlbumCollection = photosAlbumCollection
+        photoAlbumDDS.pin = pin
+        photoAlbumDDS.configurePhotosAlbumCollection()
+        photoAlbumDDS.setupFetchedResultsController()
+        fetchedResultController = photoAlbumDDS.fetchedResultController
     }
     
     // MARK: Init ViewModel
@@ -78,11 +76,6 @@ class PhotoAlbumViewController: UIViewController {
             self.configureUI(isEnable)
         }
         
-        viewModel.updatePhotoSelected = { [unowned self] () in
-            let isPhotoSelected = self.viewModel.isPhotoSelected
-            self.navigationItem.rightBarButtonItem?.isEnabled = isPhotoSelected
-        }
-        
         viewModel.updateNoImagesLabel = { [unowned self] () in
             let isEnable = self.viewModel.isImagesFound
             DispatchQueue.main.async {
@@ -90,33 +83,17 @@ class PhotoAlbumViewController: UIViewController {
             }
         }
         
+        photoAlbumDDS.updatePhotoSelected = { [unowned self] () in
+            let isPhotoSelected = self.photoAlbumDDS.isPhotoSelected
+            self.navigationItem.rightBarButtonItem?.isEnabled = isPhotoSelected
+        }
+        
     }
     
     // MARK: Action
     
     @IBAction func newCollection(_ sender: UIButton) {
-        
-        viewModel.isDownloadingPhotos(true)
-        selectedToDelete = []
-        
-        let objects = fetchedResultController.fetchedObjects!
-        _ = objects.map { viewContext.delete($0) }
-        try? viewContext.save()
-
-        FlickrClient.shared.imagesFromFlickByLatituteAndLongitude(pin) { (photos, success, error) in
-            if success {
-                if photos.count > 0 {
-                    
-                    self.viewContext.perform {
-                        try? self.viewContext.save()
-                    }
-                    
-                } else {
-                    self.viewModel.isImagesFound = false
-                }
-            }
-            self.viewModel.isDownloadingPhotos(false)
-        }
+        viewModel.newCollectionFromFlickr(pin, fetchedResultController)
     }
 
 }
@@ -133,6 +110,12 @@ extension PhotoAlbumViewController {
         annotation.coordinate = coordinate
         locationMapView.setRegion(region, animated: true)
         locationMapView.addAnnotation(annotation)
+    }
+    
+    func loadNewCollection() {
+        if fetchedResultController.fetchedObjects?.count ?? 0 == 0 {
+            viewModel.newCollectionFromFlickr(pin, fetchedResultController)
+        }
     }
     
     func configureFlowLayout() {
@@ -155,13 +138,7 @@ extension PhotoAlbumViewController {
         locationMapView.delegate = self
         loadPhotoAlbumLocationInMapView()
     }
-    
-    func configurePhotosAlbumCollection() {
-        photosAlbumCollection.delegate = self
-        photosAlbumCollection.dataSource = self
-        photosAlbumCollection.allowsMultipleSelection = true
-    }
-    
+
     private func configureRightBarButtonItem() {
         let buttonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeItems))
         self.navigationItem.rightBarButtonItem = buttonItem
@@ -169,35 +146,12 @@ extension PhotoAlbumViewController {
     }
     
     @objc func removeItems() {
-        for indexPath in selectedToDelete {
-            if selectedToDelete.contains(indexPath) {
-                viewContext.delete(fetchedResultController.object(at: indexPath))
-            }
-        }
-        
-        do {
-            try viewContext.save()
-        } catch let error {
-            print("Remove photo on Core Data Failed: \(error)")
-        }
-        
-        selectedToDelete.removeAll()
+        photoAlbumDDS.removeItems()
     }
-    
-    func setupFetchedResultsController() {
-        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
-        let predicate = NSPredicate(format: "pin == %@", pin)
-        fetchRequest.predicate = predicate
-        fetchRequest.sortDescriptors = []
-        
-        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultController.delegate = self
-        
-        do {
-            try fetchedResultController.performFetch()
-        } catch let error {
-            print("The fetch could not be performed: \(error)")
-        }
+}
+
+extension PhotoAlbumViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        return configureForAnnotation(mapView, annotation)
     }
-    
 }
