@@ -13,7 +13,9 @@ class TravelLocationsMapViewController: UIViewController {
     
     // MARK: Variables
     @IBOutlet weak var locationsMapView: MKMapView!
+    @IBOutlet weak var tapPinToDelete: UILabel!
     
+    var editingPin: Bool = false
     let seguePhotoAlbum = "seguePhotoAlbum"
     
     lazy var viewModel: TravelLocationsViewModel = {
@@ -24,17 +26,13 @@ class TravelLocationsMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configMapView()
         
         initViewModel()
         
         loadPins()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        setupRightBarButtonItem()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,7 +45,7 @@ class TravelLocationsMapViewController: UIViewController {
     func initViewModel() {
         viewModel.setupFetchedResultsController()
     }
-    
+
 }
 
 // MARK: TravelLocationsMapViewController - Extension
@@ -55,6 +53,13 @@ class TravelLocationsMapViewController: UIViewController {
 extension TravelLocationsMapViewController {
     
     // MARK: Methods
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        tapPinToDelete.isHidden = !editing
+        editingPin = editing
+    }
     
     func configMapView() {
         locationsMapView.delegate = self
@@ -105,6 +110,10 @@ extension TravelLocationsMapViewController {
         viewModel.addPinOnCoreData(coordinate)
     }
     
+    func setupRightBarButtonItem() {
+        self.navigationItem.rightBarButtonItem = editButtonItem
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == seguePhotoAlbum {
             let destination = segue.destination as! PhotoAlbumViewController
@@ -123,10 +132,16 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let pin = viewModel.getPinWithViewMap(view)
-        performSegue(withIdentifier: seguePhotoAlbum, sender: pin)
+        mapView.deselectAnnotation(view.annotation, animated: true)
+        
+        if editingPin {
+            viewModel.removePin(view)
+            mapView.removeAnnotation(view.annotation!)
+        } else {
+            let pin = viewModel.getPinWithViewMap(view)
+            performSegue(withIdentifier: seguePhotoAlbum, sender: pin)
+        }
     }
-    
 }
 
 // MARK: UIGestureRecognizerDelegate - Methods

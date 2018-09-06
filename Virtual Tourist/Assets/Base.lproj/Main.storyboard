@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Travel Locations Map View Controller-->
+        <!--Virtual Tourist-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="TravelLocationsMapViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,19 +21,35 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="JYa-d9-tGm">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </mapView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pin to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHv-Jv-92d">
+                                <rect key="frame" x="0.0" y="734" width="375" height="44"/>
+                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="z17-Zr-F2H"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="AHv-Jv-92d" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9JO-BD-AAh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AHv-Jv-92d" secondAttribute="trailing" id="KbO-Wo-aLc"/>
                             <constraint firstItem="JYa-d9-tGm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Mzo-J6-jkl"/>
                             <constraint firstAttribute="bottom" secondItem="JYa-d9-tGm" secondAttribute="bottom" id="NNX-tz-sWN"/>
                             <constraint firstAttribute="trailing" secondItem="JYa-d9-tGm" secondAttribute="trailing" id="fG9-CB-CyG"/>
                             <constraint firstItem="JYa-d9-tGm" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fXn-bG-clG"/>
+                            <constraint firstItem="AHv-Jv-92d" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="xKa-6O-7bo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="DXZ-GG-aAF"/>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="DXZ-GG-aAF">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="CAx-KY-CbW"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="locationsMapView" destination="JYa-d9-tGm" id="MXf-Vw-OI9"/>
+                        <outlet property="tapPinToDelete" destination="AHv-Jv-92d" id="giA-t4-p5L"/>
                         <segue destination="OCP-5c-OS5" kind="show" identifier="seguePhotoAlbum" id="R5J-mM-E4k"/>
                     </connections>
                 </viewController>

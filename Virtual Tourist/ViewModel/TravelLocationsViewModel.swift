@@ -69,4 +69,16 @@ extension TravelLocationsViewModel {
         
         return pin
     }
+    
+    func removePin(_ view: MKAnnotationView) {
+        
+        let pin = getPinWithViewMap(view)
+        viewContext.delete(pin)
+        
+        do {
+            try viewContext.save()
+        } catch let error {
+            print("Pin not remove: \(error)")
+        }
+    }
 }
