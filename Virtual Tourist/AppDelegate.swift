@@ -16,6 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         DataController.shared.load()
         DataController.shared.applicationDocumentsDirectory()
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        
+        let vc = LocationsViewController()
+        window?.rootViewController = UINavigationController(rootViewController: vc)
+        
         return true
     }
 
