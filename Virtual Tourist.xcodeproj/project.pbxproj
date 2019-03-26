@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30DB6A988229ABB2672E62D3 /* Pods_Virtual_Tourist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F050C43AA2CC84E519A23CEF /* Pods_Virtual_Tourist.framework */; };
 		BC1E41752248EB8600035916 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E41742248EB8600035916 /* AlbumViewController.swift */; };
 		BC1E41772248EB9800035916 /* AlbumViewControllerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E41762248EB9800035916 /* AlbumViewControllerScene.swift */; };
+		BC1E4179224A630000035916 /* LocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E4178224A630000035916 /* LocationsViewModel.swift */; };
+		BC1E417B224AB0A400035916 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E417A224AB0A400035916 /* AlbumViewModel.swift */; };
 		BC4460332133028200297111 /* DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4460322133028200297111 /* DownloadImage.swift */; };
 		BC49E695212A3ECD00B6A6D0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49E694212A3ECD00B6A6D0 /* UIViewController+Extension.swift */; };
 		BC5950B82120CA3300EF9E72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5950B72120CA3300EF9E72 /* AppDelegate.swift */; };
@@ -33,8 +36,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5FC930A5D004C7BEEE35991C /* Pods-Virtual Tourist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Virtual Tourist.release.xcconfig"; path = "Pods/Target Support Files/Pods-Virtual Tourist/Pods-Virtual Tourist.release.xcconfig"; sourceTree = "<group>"; };
 		BC1E41742248EB8600035916 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		BC1E41762248EB9800035916 /* AlbumViewControllerScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewControllerScene.swift; sourceTree = "<group>"; };
+		BC1E4178224A630000035916 /* LocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewModel.swift; sourceTree = "<group>"; };
+		BC1E417A224AB0A400035916 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
 		BC4460322133028200297111 /* DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImage.swift; sourceTree = "<group>"; };
 		BC49E694212A3ECD00B6A6D0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		BC5950B42120CA3300EF9E72 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +64,8 @@
 		BCBCDB992123B5A20070A359 /* FlickrClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
 		BCF6B5E6213F7159002D360C /* PhotoAlbumDelegateDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumDelegateDataSource.swift; sourceTree = "<group>"; };
 		BCF88FCC213B0FDE000B3C08 /* TravelLocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelLocationsViewModel.swift; sourceTree = "<group>"; };
+		CA03BD48F1368D31D4FEA8A4 /* Pods-Virtual Tourist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Virtual Tourist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Virtual Tourist/Pods-Virtual Tourist.debug.xcconfig"; sourceTree = "<group>"; };
+		F050C43AA2CC84E519A23CEF /* Pods_Virtual_Tourist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Virtual_Tourist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,16 +73,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30DB6A988229ABB2672E62D3 /* Pods_Virtual_Tourist.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B1AE6946145B6163452C273 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA03BD48F1368D31D4FEA8A4 /* Pods-Virtual Tourist.debug.xcconfig */,
+				5FC930A5D004C7BEEE35991C /* Pods-Virtual Tourist.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		BC1E41732248E90300035916 /* PhotoAlbum */ = {
 			isa = PBXGroup;
 			children = (
 				BC1E41742248EB8600035916 /* AlbumViewController.swift */,
+				BC1E417A224AB0A400035916 /* AlbumViewModel.swift */,
 				BC1E41762248EB9800035916 /* AlbumViewControllerScene.swift */,
 			);
 			path = PhotoAlbum;
@@ -96,6 +115,8 @@
 				BC5950B62120CA3300EF9E72 /* Virtual Tourist */,
 				BC5950B72120CA3300EF9E72 /* AppDelegate.swift */,
 				BC5950B52120CA3300EF9E72 /* Products */,
+				7B1AE6946145B6163452C273 /* Pods */,
+				D3D3C6DAF55339C0CA99F028 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				BCA3672022483F8200B8EDE0 /* LocationsViewController.swift */,
+				BC1E4178224A630000035916 /* LocationsViewModel.swift */,
 				BCA367222248438200B8EDE0 /* LocationsViewControllerScreen.swift */,
 			);
 			path = TravelLocation;
@@ -214,6 +236,14 @@
 			path = Flickr;
 			sourceTree = "<group>";
 		};
+		D3D3C6DAF55339C0CA99F028 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F050C43AA2CC84E519A23CEF /* Pods_Virtual_Tourist.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -221,9 +251,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BC5950C62120CA3500EF9E72 /* Build configuration list for PBXNativeTarget "Virtual Tourist" */;
 			buildPhases = (
+				AEE119199572BE841E71C3A2 /* [CP] Check Pods Manifest.lock */,
 				BC5950B02120CA3300EF9E72 /* Sources */,
 				BC5950B12120CA3300EF9E72 /* Frameworks */,
 				BC5950B22120CA3300EF9E72 /* Resources */,
+				3F635F39C06192A2AB0B13D6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -280,6 +312,59 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3F635F39C06192A2AB0B13D6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Virtual Tourist/Pods-Virtual Tourist-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Virtual Tourist/Pods-Virtual Tourist-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AEE119199572BE841E71C3A2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Virtual Tourist-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BC5950B02120CA3300EF9E72 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -295,6 +380,7 @@
 				BC1E41772248EB9800035916 /* AlbumViewControllerScene.swift in Sources */,
 				BCA367232248438200B8EDE0 /* LocationsViewControllerScreen.swift in Sources */,
 				BC7E8740213060DC00018204 /* PhotoAlbumCell.swift in Sources */,
+				BC1E4179224A630000035916 /* LocationsViewModel.swift in Sources */,
 				BC5950CF2120CD9700EF9E72 /* PhotoAlbumViewController.swift in Sources */,
 				BC49E695212A3ECD00B6A6D0 /* UIViewController+Extension.swift in Sources */,
 				BCACFE792134CDE700BC0F70 /* DataController.swift in Sources */,
@@ -304,6 +390,7 @@
 				BCF6B5E7213F7159002D360C /* PhotoAlbumDelegateDataSource.swift in Sources */,
 				BC8EDA0F21264FA300C55B65 /* FlickrConvenience.swift in Sources */,
 				BC1E41752248EB8600035916 /* AlbumViewController.swift in Sources */,
+				BC1E417B224AB0A400035916 /* AlbumViewModel.swift in Sources */,
 				BCF88FCD213B0FDE000B3C08 /* TravelLocationsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,6 +533,7 @@
 		};
 		BC5950C72120CA3500EF9E72 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA03BD48F1368D31D4FEA8A4 /* Pods-Virtual Tourist.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -464,6 +552,7 @@
 		};
 		BC5950C82120CA3500EF9E72 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FC930A5D004C7BEEE35991C /* Pods-Virtual Tourist.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

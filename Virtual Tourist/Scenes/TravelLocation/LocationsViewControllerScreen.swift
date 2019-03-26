@@ -25,7 +25,7 @@ final class LocationsViewControllerScreen: UIView {
         view.font = .boldSystemFont(ofSize: 18)
         view.textAlignment = .center
         view.textColor = .white
-        //view.isHidden = true
+        view.isHidden = true
         return view
     }()
     
