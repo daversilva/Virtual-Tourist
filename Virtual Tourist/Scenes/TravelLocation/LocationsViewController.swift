@@ -18,6 +18,8 @@ class LocationsViewController: UIViewController {
     
     let screen = LocationsViewControllerScreen()
     
+    var editingPin: Bool = false
+    
     override func loadView() {
         self.view = screen
         setupViews()
@@ -49,7 +51,8 @@ extension LocationsViewController {
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
-        viewModel?.isEditing.accept(editing)
+        screen.tapLabel.isHidden = !editing
+        editingPin = editing
     }
     
     private func setupViews() {
@@ -58,13 +61,13 @@ extension LocationsViewController {
         
         screen.mapKit.delegate = self
         screen.mapKit.addGestureRecognizer(configLongPressGestureRecognizer())
+        
+        viewModel?.setupFetchedResultsEvent.onNext(())
+        viewModel?.loadPinEvent.onNext(())
     }
     
     private func bindViews() {
         guard let viewModel = viewModel else { fatalError("viewModel shouldn't be nil") }
-        
-        viewModel.setupFetchedResultsEvent.onNext(())
-        viewModel.loadPinEvent.onNext(())
         
         viewModel.pins
             .bind { [weak self] pins in
@@ -72,16 +75,12 @@ extension LocationsViewController {
                     self?.loadAnnotationOnMap(pin, nil)
                 }
             }.disposed(by: disposeBag)
-        
-        viewModel.isEditing
-            .bind { [weak self] value in
-                self?.screen.tapLabel.isHidden = !value
-            }.disposed(by: disposeBag)
+
     }
     
     private func navigationToAlbum(_ pin: Pin) {
-        let vm = AlbumViewModel()
-        let vc = AlbumViewController(viewModel: vm, pin: pin)
+        let vm = AlbumViewModel(pin: pin)
+        let vc = AlbumViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -131,18 +130,14 @@ extension LocationsViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: true)
         
-        viewModel?.isEditing
-            .bind { [weak self] isEditing in
-                guard let strongSelf = self else { return }
-                if isEditing {
-                    strongSelf.viewModel?.removePinEvent.onNext(view)
-                    mapView.removeAnnotation(view.annotation!)
-                } else {
-                    guard let pin = strongSelf.viewModel?.pinSelected.value else { return}
-                    strongSelf.viewModel?.pinSelectedEvent.onNext(view)
-                    strongSelf.navigationToAlbum(pin)
-                }
-            }.disposed(by: disposeBag)
+        if isEditing {
+            viewModel?.removePinEvent.onNext(view)
+            mapView.removeAnnotation(view.annotation!)
+        } else {
+            viewModel?.pinSelectedEvent.onNext(view)
+            guard let pin = viewModel?.pinSelected.value else { return }
+            navigationToAlbum(pin)
+        }
     }
     
 }

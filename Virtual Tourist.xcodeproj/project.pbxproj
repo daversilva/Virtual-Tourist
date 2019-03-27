@@ -12,6 +12,8 @@
 		BC1E41772248EB9800035916 /* AlbumViewControllerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E41762248EB9800035916 /* AlbumViewControllerScene.swift */; };
 		BC1E4179224A630000035916 /* LocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E4178224A630000035916 /* LocationsViewModel.swift */; };
 		BC1E417B224AB0A400035916 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E417A224AB0A400035916 /* AlbumViewModel.swift */; };
+		BC1E4180224C09C400035916 /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E417F224C09C400035916 /* AlbumCell.swift */; };
+		BC1E4182224C0C5800035916 /* UICollectionView+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E4181224C0C5800035916 /* UICollectionView+ext.swift */; };
 		BC4460332133028200297111 /* DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4460322133028200297111 /* DownloadImage.swift */; };
 		BC49E695212A3ECD00B6A6D0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49E694212A3ECD00B6A6D0 /* UIViewController+Extension.swift */; };
 		BC5950B82120CA3300EF9E72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5950B72120CA3300EF9E72 /* AppDelegate.swift */; };
@@ -41,6 +43,8 @@
 		BC1E41762248EB9800035916 /* AlbumViewControllerScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewControllerScene.swift; sourceTree = "<group>"; };
 		BC1E4178224A630000035916 /* LocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewModel.swift; sourceTree = "<group>"; };
 		BC1E417A224AB0A400035916 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
+		BC1E417F224C09C400035916 /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
+		BC1E4181224C0C5800035916 /* UICollectionView+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ext.swift"; sourceTree = "<group>"; };
 		BC4460322133028200297111 /* DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImage.swift; sourceTree = "<group>"; };
 		BC49E694212A3ECD00B6A6D0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		BC5950B42120CA3300EF9E72 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,11 +96,20 @@
 		BC1E41732248E90300035916 /* PhotoAlbum */ = {
 			isa = PBXGroup;
 			children = (
+				BC1E417E224C099900035916 /* AlbumCell */,
 				BC1E41742248EB8600035916 /* AlbumViewController.swift */,
 				BC1E417A224AB0A400035916 /* AlbumViewModel.swift */,
 				BC1E41762248EB9800035916 /* AlbumViewControllerScene.swift */,
 			);
 			path = PhotoAlbum;
+			sourceTree = "<group>";
+		};
+		BC1E417E224C099900035916 /* AlbumCell */ = {
+			isa = PBXGroup;
+			children = (
+				BC1E417F224C09C400035916 /* AlbumCell.swift */,
+			);
+			path = AlbumCell;
 			sourceTree = "<group>";
 		};
 		BC49E693212A3E8C00B6A6D0 /* Extensions */ = {
@@ -105,6 +118,7 @@
 				BCBCDB942123A3F50070A359 /* MKMapViewDelegate+Extension.swift */,
 				BC49E694212A3ECD00B6A6D0 /* UIViewController+Extension.swift */,
 				BCA3672822484FA500B8EDE0 /* ViewCode+ext.swift */,
+				BC1E4181224C0C5800035916 /* UICollectionView+ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -378,11 +392,13 @@
 				BC5950B82120CA3300EF9E72 /* AppDelegate.swift in Sources */,
 				BCA3672922484FA500B8EDE0 /* ViewCode+ext.swift in Sources */,
 				BC1E41772248EB9800035916 /* AlbumViewControllerScene.swift in Sources */,
+				BC1E4180224C09C400035916 /* AlbumCell.swift in Sources */,
 				BCA367232248438200B8EDE0 /* LocationsViewControllerScreen.swift in Sources */,
 				BC7E8740213060DC00018204 /* PhotoAlbumCell.swift in Sources */,
 				BC1E4179224A630000035916 /* LocationsViewModel.swift in Sources */,
 				BC5950CF2120CD9700EF9E72 /* PhotoAlbumViewController.swift in Sources */,
 				BC49E695212A3ECD00B6A6D0 /* UIViewController+Extension.swift in Sources */,
+				BC1E4182224C0C5800035916 /* UICollectionView+ext.swift in Sources */,
 				BCACFE792134CDE700BC0F70 /* DataController.swift in Sources */,
 				BCBCDB982123B49B0070A359 /* Constants.swift in Sources */,
 				BCBCDB9A2123B5A20070A359 /* FlickrClient.swift in Sources */,

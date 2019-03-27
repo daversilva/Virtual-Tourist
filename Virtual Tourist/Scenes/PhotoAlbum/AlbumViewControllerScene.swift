@@ -11,6 +11,8 @@ import MapKit
 
 final class AlbumViewControllerScene: UIView {
     
+    var cellId = "cellId"
+    
     lazy var mapKit: MKMapView = {
         let view = MKMapView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -55,8 +57,6 @@ extension AlbumViewControllerScene: CodeView {
         addSubview(mapKit)
         addSubview(collectionView)
         addSubview(newCollectionBtn)
-        
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
     }
     
     func setupConstraints() {

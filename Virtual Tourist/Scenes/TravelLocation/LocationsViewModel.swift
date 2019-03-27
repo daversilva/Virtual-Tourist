@@ -13,7 +13,6 @@ import MapKit
 import CoreData
 
 protocol LocationsViewModelType {
-    var isEditing: BehaviorRelay<Bool> { get }
     var addPinEvent: PublishSubject<CLLocationCoordinate2D> { get }
     var removePinEvent: PublishSubject<MKAnnotationView> { get }
     var loadPinEvent: PublishSubject<Void> { get }
@@ -31,7 +30,6 @@ class LocationsViewModel: LocationsViewModelType {
     
     let disposeBag = DisposeBag()
     
-    var isEditing = BehaviorRelay<Bool>(value: false)
     var removePinEvent = PublishSubject<MKAnnotationView>()
     var addPinEvent = PublishSubject<CLLocationCoordinate2D>()
     var loadPinEvent = PublishSubject<Void>()
