@@ -11,22 +11,24 @@ import UIKit
 class AlbumCell: UICollectionViewCell {
     
     let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-    
-    lazy var photo: UIImageView = {
+
+    lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     override var isSelected: Bool {
         didSet {
-            photo.alpha = isSelected ? 0.5 : 1.0
+            imageView.alpha = isSelected ? 0.5 : 1.0
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViewCell()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -35,18 +37,16 @@ class AlbumCell: UICollectionViewCell {
     }
     
     private func setupViewCell() {
-        addSubview(photo)
+        addSubview(imageView)
         
-        photo.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        photo.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        photo.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        photo.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
-        backgroundColor = UIColor.gray
+        imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
     func set(image: UIImage?) {
-        photo.image = image
+        imageView.image = image
         
         DispatchQueue.main.async {
             if image == nil {

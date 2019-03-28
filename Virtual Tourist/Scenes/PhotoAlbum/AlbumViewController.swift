@@ -61,16 +61,16 @@ extension AlbumViewController {
     
     private func bindViews() {
         guard let viewModel = viewModel else { fatalError("viewModel shouldn't be nil") }
-        
-        screen.collectionView.delegate = nil
+
+        screen.collectionView.delegate = self
         screen.collectionView.dataSource = nil
         
         let datasource = RxCollectionViewSectionedReloadDataSource<SectionOfPhotos>(
             configureCell: { dataSource, collectionView, indexPath, item in
                 let cell = collectionView.dequeueReusableCell(type: AlbumCell.self, indexPath: indexPath)
-//                let photo = self.viewModel?.getPhoto(with: indexPath)
-//                cell.set(image: nil)
-//                DownloadImage.shared.loadImageViewCell(cell: cell, photo: photo!)
+                let photo = self.viewModel?.getPhoto(with: indexPath)
+                cell.set(image: nil)
+                DownloadImage.shared.loadImageViewCell(cell: cell, photo: photo!)
                 return cell
         })
         
