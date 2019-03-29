@@ -52,7 +52,6 @@ extension AlbumViewController {
         
         screen.mapKit.delegate = self
         screen.collectionView.registerCell(AlbumCell.self)
-//        screen.collectionView.registerCellWithNib(AlbumCell.self)
         
         guard let viewModel = viewModel else { fatalError("viewModel shouldn't be nil") }
         loadPhotoAlbumLocationInMapView(viewModel.pinModel.value)
@@ -68,9 +67,14 @@ extension AlbumViewController {
         let datasource = RxCollectionViewSectionedReloadDataSource<SectionOfPhotos>(
             configureCell: { dataSource, collectionView, indexPath, item in
                 let cell = collectionView.dequeueReusableCell(type: AlbumCell.self, indexPath: indexPath)
-                let photo = self.viewModel?.getPhoto(with: indexPath)
-                cell.set(image: nil)
-                DownloadImage.shared.loadImageViewCell(cell: cell, photo: photo!)
+
+                if (self.viewModel?.validateIndexPath(indexPath))! {
+                    let photo = self.viewModel?.getPhoto(with: indexPath)
+                    DownloadImage.shared.loadImageViewCell(cell: cell, photo: photo!)
+                } else {
+                    cell.set(image: nil)
+                }
+                
                 return cell
         })
         

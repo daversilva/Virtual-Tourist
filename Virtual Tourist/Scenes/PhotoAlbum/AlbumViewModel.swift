@@ -36,6 +36,7 @@ protocol AlbumViewModelType {
     var photos: BehaviorRelay<[Photo]> { get }
     var loadPhotosEvent: PublishSubject<Void> { get }
     func getPhoto(with indexPath: IndexPath) -> Photo
+    func validateIndexPath(_ indexPath: IndexPath) -> Bool
 }
 
 class AlbumViewModel: AlbumViewModelType {
@@ -95,7 +96,10 @@ class AlbumViewModel: AlbumViewModelType {
     
     private func loadPhotos() {
         guard let photos = fetchedResultController.fetchedObjects else { return }
-        self.photos.accept(photos)
+        
+        photos.count > 0
+            ? self.photos.accept(photos)
+            : loadNewCollection()
     }
     
     func getPhoto(with indexPath: IndexPath) -> Photo {
@@ -106,6 +110,16 @@ class AlbumViewModel: AlbumViewModelType {
         if fetchedResultController.fetchedObjects?.count ?? 0 == 0 {
             newCollectionFromFlickr(pin, fetchedResultController)
         }
+    }
+    
+    func validateIndexPath(_ indexPath: IndexPath) -> Bool {
+        if let sections = fetchedResultController?.sections,
+            indexPath.section < sections.count {
+            if indexPath.row < sections[indexPath.section].numberOfObjects {
+                return true
+            }
+        }
+        return false
     }
     
     private func newCollectionFromFlickr(_ pin: Pin, _ fetchedController: NSFetchedResultsController<Photo>) {
