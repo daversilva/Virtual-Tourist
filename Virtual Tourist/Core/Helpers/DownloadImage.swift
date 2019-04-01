@@ -18,48 +18,6 @@ class DownloadImage {
     
     let imageDefault = UIImage(named: "no-photo")
     
-    func loadImageViewCell(cell: PhotoAlbumCell, photo: Photo) {
-        
-        guard let urlString = photo.url else { return }
-        
-        if let imageFromCache = imageCache.object(forKey: urlString as NSString) {
-            cell.set(image: imageFromCache)
-            return
-        }
-        
-        if let imageFromCoreData = photo.image  {
-            cell.set(image: UIImage(data: imageFromCoreData))
-        } else {
-            
-            guard let imageUrl = URL(string: urlString) else {
-                cell.set(image: imageDefault)
-                return
-            }
-
-            DispatchQueue.global().async {
-                guard let data = try? Data(contentsOf: imageUrl) else {
-                    cell.set(image: self.imageDefault) 
-                    return
-                }
-                
-                guard let image = UIImage(data: data) else {
-                    cell.set(image: self.imageDefault)
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    imageCache.setObject(image, forKey: urlString as NSString)
-                    cell.set(image: image)
-                }
-                
-                if let url = URL(string: photo.url!),let imageData = try? Data(contentsOf: url) {
-                    photo.image = imageData
-                    try? DataController.shared.viewContext.save()
-                }
-            }
-        }
-    }
-    
     func loadImageViewCell(cell: AlbumCell, photo: Photo) {
         
         guard let urlString = photo.url else { return }

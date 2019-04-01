@@ -20,9 +20,9 @@ class PhotoAlbumDelegateDataSource: NSObject {
     var deletedIndexPaths: [IndexPath]!
     var updatedIndexPaths: [IndexPath]!
     
-    lazy var viewModel: PhotoAlbumViewModel = {
-        return PhotoAlbumViewModel()
-    }()
+//    lazy var viewModel: PhotoAlbumViewModel = {
+//        return PhotoAlbumViewModel()
+//    }()
     
     var selectedToDelete: [IndexPath] = [] {
         didSet {
@@ -103,7 +103,7 @@ extension PhotoAlbumDelegateDataSource: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! PhotoAlbumCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCollectionView", for: indexPath) as! AlbumCell
         let photo = fetchedResultController.object(at: indexPath)
         
         cell.set(image: nil)
