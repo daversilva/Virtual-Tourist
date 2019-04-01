@@ -73,7 +73,7 @@ class AlbumViewModel: AlbumViewModelType {
         
         newCollectionEvent
             .bind { [weak self] in
-                self?.loadNewCollection()
+                self?.loadNewCollection(true)
             }.disposed(by: disposeBag)
         
     }
@@ -106,8 +106,10 @@ class AlbumViewModel: AlbumViewModelType {
         return fetchedResultController.object(at: indexPath)
     }
     
-    private func loadNewCollection() {
-        if fetchedResultController.fetchedObjects?.count ?? 0 == 0 {
+    private func loadNewCollection(_ isNewCollection: Bool = false) {
+        if isNewCollection {
+            newCollectionFromFlickr(pin, fetchedResultController)
+        } else if fetchedResultController.fetchedObjects?.count ?? 0 == 0 {
             newCollectionFromFlickr(pin, fetchedResultController)
         }
     }

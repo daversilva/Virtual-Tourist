@@ -32,7 +32,7 @@ final class AlbumViewControllerScene: UIView {
     }()
     
     lazy var newCollectionBtn: UIButton = {
-        let view = UIButton()
+        let view = UIButton(type: .system)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setTitle("New Collection", for: .normal)
         view.setTitleColor(UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0), for: .normal)
